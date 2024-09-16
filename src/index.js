@@ -5,6 +5,11 @@ const morgan = require('morgan')
 const db = require('./config/database')
 const route = require('./routes')
 const mqttFunction = require('./MQTT')
+const cors = require('cors');
+
+app.use(cors({
+  origin: 'http://localhost:5173' // Allow only your React app's origin
+}));
 
 // Connect to DB
 db.connect()

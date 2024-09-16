@@ -7,8 +7,7 @@ const SensorSchema = new Schema({
     temperature: { type: Number, required: true },
     humidity: { type: Number, required: true },
     light: { type: Number, required: true },
-}, {
-    timestamps: true
+    createdAt: { type: String, default: () => new Date().toLocaleString() }
 })
 
 SensorSchema.pre('save', function(next) {

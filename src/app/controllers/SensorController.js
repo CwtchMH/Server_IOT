@@ -3,11 +3,21 @@ const Sensor = require('../models/Sensors')
 class SensorController {
 
     show(req, res, next) {
-        Sensor.find({})
-            .then(sensors => {
-                res.json(sensors)
-            })
-            .catch(next)
+        const { searchTerm, searchType } = req.query
+        if (searchTerm && searchType) {
+            Sensor.find({ [searchType]: searchType !== "createdAt" ? { $gte: searchTerm } : { $regex: searchTerm, $options: 'i' } })
+                .then(sensors => {
+                    res.json(sensors)
+                    console.log(typeof searchTerm)
+                })
+                .catch(next)
+        } else {
+            Sensor.find({})
+                .then(sensors => {
+                    res.json(sensors)
+                })
+                .catch(next)
+        }
     }
 
     showOne(req, res, next) {

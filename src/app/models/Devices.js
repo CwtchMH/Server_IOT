@@ -11,8 +11,9 @@ const DeviceSchema = new Schema({
     type: String,
     enum: ['on', 'off'],
     default: 'off'
-  }
-}, { timestamps: true })
+  },
+  createdAt: { type: String, default: () => new Date().toLocaleString() }
+})
 
 // Pre-save hook to auto-increment id
 DeviceSchema.pre('save', function(next) {
