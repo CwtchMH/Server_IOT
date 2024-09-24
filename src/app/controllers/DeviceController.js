@@ -1,4 +1,5 @@
 const Device = require('../models/Devices')
+const { broadcast } = require('../../Websocket/index')
 
 class DeviceController {
 
@@ -17,12 +18,14 @@ class DeviceController {
                 query = { device: searchType, status: { $regex: `^${searchTerm}`, $options: 'i' } }
             }
             Device.find(query)
+                .sort({ createdAt: -1 })
                 .then(devices => res.json(devices))
                 .catch(next)
         } else {
             Device.find({})
-            .then(devices => res.json(devices))
-            .catch(next)
+                .sort({ createdAt: -1 })
+                .then(devices => res.json(devices))
+                .catch(next)
         }
     }
 
@@ -35,8 +38,12 @@ class DeviceController {
     add(req, res, next) {
         const device = new Device(req.body)
         device.save()
-            .then(device => res.json(device))
+            .then(device => {
+                res.json(device)
+                broadcast({ type: 'DEVICE_CREATE', device: device })
+            })
             .catch(next)
+
     }
 }
 

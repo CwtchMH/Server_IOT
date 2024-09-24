@@ -1,18 +1,16 @@
 const mqtt = require('mqtt');
-const client = mqtt.connect('ws://localhost:9001/mqtt'); 
-const topic = 'test-topic';
-const message = 'test message';
+const client = mqtt.connect('mqtt://192.168.0.110:1883'); 
 const Device = require('../app/models/Devices');
 
 function mqttFunction() {
     client.on('connect', () => {
         console.log(`Is client connected: ${client.connected}`);    
         if (client.connected === true) {
-            console.log(`message: ${message}, topic: ${topic}`); 
+            console.log('Connected MQTT'); 
         }
     
         // subscribe to a topic
-        client.subscribe(topic);
+        client.subscribe('sensors/data');
     });
     
     // receive a message from the subscribed topic

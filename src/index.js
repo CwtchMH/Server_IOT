@@ -6,6 +6,11 @@ const db = require('./config/database')
 const route = require('./routes')
 const mqttFunction = require('./MQTT')
 const cors = require('cors');
+const { initializeWebSocket } = require('./Websocket/index');
+
+
+// Initialize WebSocket
+initializeWebSocket();
 
 app.use(cors({
   origin: 'http://localhost:5173' // Allow only your React app's origin

@@ -1,4 +1,5 @@
 const Sensor = require('../models/Sensors')
+const { broadcast } = require('../../Websocket/index')
 
 class SensorController {
 
@@ -6,13 +7,14 @@ class SensorController {
         const { searchTerm, searchType } = req.query
         if (searchTerm && searchType) {
             Sensor.find({ [searchType]: searchType !== "createdAt" ? { $gte: searchTerm } : { $regex: searchTerm, $options: 'i' } })
+                .sort({ createdAt: -1 })
                 .then(sensors => {
                     res.json(sensors)
-                    console.log(typeof searchTerm)
                 })
                 .catch(next)
         } else {
             Sensor.find({})
+                .sort({ createdAt: -1 })
                 .then(sensors => {
                     res.json(sensors)
                 })
@@ -33,8 +35,11 @@ class SensorController {
         sensor.save()
             .then(sensor => {
                 res.json(sensor)
+                broadcast({ type: "SENSOR_CREATE" })
+
             })
             .catch(next)
+        
     }
 
 }
