@@ -1,6 +1,7 @@
 const mqtt = require('mqtt');
-const client = mqtt.connect('mqtt://192.168.0.110:1883'); 
-const Device = require('../app/models/Devices');
+const client = mqtt.connect('mqtt://192.168.22.123:1883'); 
+const Sensor = require('../app/models/Sensors');
+const { broadcast } = require('../Websocket/index')
 
 function mqttFunction() {
     client.on('connect', () => {
@@ -16,8 +17,9 @@ function mqttFunction() {
     // receive a message from the subscribed topic
     client.on('message',(topic, message) => {
         console.log(`message: ${message}, topic: ${topic}`); 
-        const device = new Device(JSON.parse(message.toString()));
-        device.save()
+        const sensor = new Sensor(JSON.parse(message.toString()));
+        sensor.save()
+        broadcast({ type: "SENSOR_CREATE" })
     });
     
     // error handling

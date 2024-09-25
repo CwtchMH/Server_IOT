@@ -7,10 +7,12 @@ const route = require('./routes')
 const mqttFunction = require('./MQTT')
 const cors = require('cors');
 const { initializeWebSocket } = require('./Websocket/index');
+const http = require('http');
 
 
 // Initialize WebSocket
-initializeWebSocket();
+const server = http.createServer(app);
+const wss = initializeWebSocket(server);
 
 app.use(cors({
   origin: 'http://localhost:5173' // Allow only your React app's origin
@@ -30,6 +32,6 @@ route(app)
 mqttFunction()
 
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log('Server is running on port 3000')
 })
