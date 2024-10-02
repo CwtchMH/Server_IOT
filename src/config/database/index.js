@@ -4,7 +4,7 @@ const dotenv = require('dotenv')
 function connect() {
   dotenv.config()
 
-  const mongodbConnString = `mongodb+srv://${process.env.USER_NAME}:${process.env.PASSWORD}@${process.env.CLUSTER_NAME}.lv1sm.mongodb.net/${process.env.DB_NAME}`
+  const mongodbConnString = `mongodb://localhost:27017/Cwtch_B21DCCN364`
 
   mongoose.connect(mongodbConnString)
 

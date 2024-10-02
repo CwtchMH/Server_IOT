@@ -1,7 +1,15 @@
-const mqtt = require('mqtt');
-const client = mqtt.connect('mqtt://192.168.22.123:1883'); 
+const mqtt = require('mqtt'); 
 const Sensor = require('../app/models/Sensors');
 const { broadcast } = require('../Websocket/index')
+
+
+const client = mqtt.connect({
+    host: '192.168.1.20',
+    port: 1883,
+    username: 'ManhHieu',
+    password: 'b21dccn364',
+    clientId: 'uniqueClientId',
+});
 
 function mqttFunction() {
     client.on('connect', () => {
@@ -24,8 +32,9 @@ function mqttFunction() {
     
     // error handling
     client.on('error',(error) => {
-        console.error(error);
+        console.error("Can't connect to MQTT broker");
         process.exit(1);
+
     });
 }
 
