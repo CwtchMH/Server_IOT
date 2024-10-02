@@ -4,7 +4,7 @@ const { broadcast } = require('../Websocket/index')
 
 
 const client = mqtt.connect({
-    host: '192.168.1.20',
+    host: '10.21.136.234',
     port: 1883,
     username: 'ManhHieu',
     password: 'b21dccn364',

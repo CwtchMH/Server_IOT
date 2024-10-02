@@ -13,7 +13,7 @@ class DeviceController {
         if (searchTerm && searchType) {
             let query = {}
             if (searchType === "createdAt") {
-                query = { [searchType]: { $regex: searchTerm, $options: 'i' } }
+                query = { createdAtDate: { $regex: searchTerm, $options: 'i' } }
             } else {
                 query = { device: searchType, status: { $regex: `^${searchTerm}`, $options: 'i' } }
             }
