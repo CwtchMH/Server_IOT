@@ -7,6 +7,7 @@ const SensorSchema = new Schema({
   temperature: { type: Number, required: true },
   humidity: { type: Number, required: true },
   light: { type: Number, required: true },
+  random: { type: Number, required: true },
   createdAt: {
     type: String,
     default: () => {
